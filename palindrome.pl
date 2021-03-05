@@ -3,7 +3,6 @@
 
 % TODO write is_palindrome/1
 
-is_palindrome(L) :- reverse(L, L). 
 
 % TESTS
 :- is_palindrome([a, b, b, a]), format("Passed!"), nl; format('Failed'), nl. 

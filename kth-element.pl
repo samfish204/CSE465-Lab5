@@ -2,8 +2,6 @@
 
 
 % TODO: Find the kth element of a list
-kth_element([X|_], 0, X).
-kth_element([_|T], N, X) :- M is N-1, kth_element(T, M, X). 
  
 
 % TESTS 

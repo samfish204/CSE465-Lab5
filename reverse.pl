@@ -11,9 +11,6 @@
 % TODO: Implement my_reverse  (you need to implement helper)
 % my_reverse(L1, L2) :- helper(L1, L2, []).
 
-my_reverse(L1, L2) :- helper(L1, L2, []).
-helper([], L2, L2). 
-helper([H|T], L2, Tmp) :- helper(T, L2, [H|Tmp]). 
 
 
 
