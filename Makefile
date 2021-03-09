@@ -16,7 +16,7 @@ default: all
 
 all: check
 
-check: check-list-basics check-kth-element check-last-element check-reverse
+check: check-list-basics check-kth-element check-last-element check-reverse check-palindrome
 
 clean:
 	@rm -f *.output
