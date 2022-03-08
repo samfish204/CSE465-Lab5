@@ -26,56 +26,38 @@ clean:
 # Rules to get outputs of the assignments.
 FORCE: # no dependancies -- always dirty
 
-# Scheme
-%.output: %.scm FORCE
-	@(scheme --quiet < $*.scm >$*.output) || (cat $*.output; false)
-
 
 # Prolog
 %.output: %.pl FORCE
 	(swipl -q -g halt $*.pl | tee $*.output) 
 
 
-# Python
-%.output:  %.py FORCE
-	@(python $*.py >$*.output) || (cat $*.output; false)
-
-# Java
-%.class: %.java
-	@javac $?
-
-%.output: %.class FORCE
-	@(java $* >$*.output) || (cat $*.output; false)
-
-# C-Sharp
-%.exe: %.cs 
-	@csc -nologo $?
-
 %.output:  %.exe FORCE
 	@(mono $*.exe >$*.output) || (cat $*.output; false)
 
-###########################################################################
-# Sanity checks to make sure the output is correct and the sourcefiles 
-# follow the rules of the assignment. 
-###########################################################################
 
-# Make sure the output matches the expected output
 check-%: %.output
 	@[ -z '$(shell diff --strip-trailing-cr $*.output $*.expected)' ] \
 		|| (echo "$*.output does not match $*.expected\n" \
 		    && diff --strip-trailing-cr $*.output $*.expected && false)
 	@echo $*-Success!
 
-# This uses grep to make sure there are no for-loops or while-loops
-no-loops-in-%: %
-	@[ -z "$(shell grep for $*)" ] || (echo "You may not use for loops" && false)
-	@[ -z "$(shell grep while $*)" ] || (echo "You may not use while loops" && false)
 
-# This used grep to make sure students address all of the TODO comments
-# (and then remove them!)
-no-todos-in-%: %
-	@[ -z "$(shell grep -i todo $*)" ] || (echo "You must replace all TODO comments" && false)
+submit: check submit-without-check
 
+submit-without-check:
+	git add -u 
+	git commit -m "Submission" || echo "** Nothing has changed"
+	git push origin master 
+	git log -1
+
+update-http:
+	git pull https://gitlab.csi.miamioh.edu/CSE465/instructor/lab04.git
+
+update-ssh:
+	git pull git@gitlab.csi.miamioh.edu:CSE465/instructor/lab04.git
+
+update: update-ssh 
 
 
 
