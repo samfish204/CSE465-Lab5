@@ -10,7 +10,14 @@
 
 % TODO: Implement my_reverse  (you need to implement helper)
 % my_reverse(L1, L2) :- helper(L1, L2, []).
+my_reverse(L1, L2) :- helper(L1, L2, []).
 
+helper([], R, R).
+helper([H|T], R, B) :- helper(T, R, [H|B]).
+
+rev2([H|T], B) :-
+    append(B, [H], Appended),
+    reverse(T, Appended).
 
 
 
